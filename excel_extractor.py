@@ -3,6 +3,7 @@
 # 30 May 2021
 
 import argparse
+import json
 import os
 import pandas as pd
 import sys
@@ -17,6 +18,17 @@ def clean_df(df_name):
         temp_df = temp_df.set_index('COMPANY NAME')
         base_df[i] = temp_df.loc[i].values
     return base_df
+
+def generate_meta_json(df_name):
+    '''
+    generate the meta json file for the stock
+    '''
+    print('df is {}'.format(df_name))
+    meta_data = {}
+    for i in df_name.values:
+        print(i)
+        meta_data[i[0]] = i[1]
+    return meta_data
     
 def main():
     '''
@@ -27,9 +39,9 @@ def main():
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
     print(folder_name)
-    meta_df = base_sheet.iloc[4:8].dropna(axis=1).set_index('COMPANY NAME')
+    meta_df = base_sheet.iloc[4:8]
     profit_loss_df = base_sheet.iloc[14:30]
-    balance_sheet_df = base_sheet.iloc[54:68]
+    balance_sheet_df = base_sheet.iloc[54:69]
     balance_sheet_df = balance_sheet_df.drop_duplicates() 
     cash_flow_df = base_sheet.iloc[80:84]
     master_profit_loss_df = clean_df(profit_loss_df)
@@ -38,6 +50,11 @@ def main():
     master_profit_loss_df.to_csv(os.path.join(folder_name,'profit_loss_df.csv'),index=False)
     master_balance_sheet_df.to_csv(os.path.join(folder_name,'balance_sheet_df.csv'),index=False)
     master_cash_flow_df.to_csv(os.path.join(folder_name,'cash_flow_df.csv'),index=False)
+    #meta_data = generate_meta_json(meta_df)
+    #for i in meta_df.values
+    #for i in meta_df.values
+    #with open(os.path.join(folder_name,'meta_data.json'),"w") as f:
+    #    json.dump(meta_data,f)
 
 print('Starting')
 if __name__=="__main__":
