@@ -1,0 +1,2 @@
+Remove rows if all columns are empty
+If no borrowings then it may be empty. then we substitute as 0
