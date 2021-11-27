@@ -12,6 +12,7 @@ def fill_empty_list(df):
     Fill empty values of the data frame
     '''
     empty_list = df.columns[df.isna().any()].tolist()
+    print('empty_list is {}'.format(empty_list))
     for name in empty_list:
         mean_value = df[name].mean()
         df[name].fillna(value=mean_value,inplace=True)
@@ -25,9 +26,13 @@ def main():
     profit_loss_df = pd.read_csv(os.path.join(folder_name,'profit_loss_df.csv'))
     balance_sheet_df = pd.read_csv(os.path.join(folder_name,'balance_sheet_df.csv'))
     cash_flow_df = pd.read_csv(os.path.join(folder_name,'cash_flow_df.csv'))
+    print('Going for fill_empty_list')
     fill_empty_list(profit_loss_df)
+    print('done profit_loss_df')
     fill_empty_list(balance_sheet_df)
+    print('Done balance_sheet_df')
     fill_empty_list(cash_flow_df)
+    print('Done cash_flow_df')
     operating_income = profit_loss_df['Sales'] - profit_loss_df['Other Income']
     total_expense = (profit_loss_df['Raw Material Cost'] + profit_loss_df['Power and Fuel'] +
                     profit_loss_df['Other Mfr. Exp'] + profit_loss_df['Employee Cost'] +
